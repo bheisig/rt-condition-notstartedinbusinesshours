@@ -1,0 +1,105 @@
+NAME
+    RT::Condition::NotStartedInBusinessHours - Check for unstarted tickets
+    within business hours
+
+DESCRIPTION
+    This RT Condition will check for tickets which are not started within
+    business hours.
+
+SYNOPSIS
+  CLI
+        rt-crontool
+            --search RT::Search::ModuleName
+            --search-arg 'The Search Argument'
+            --condition RT::Condition::NotStartedInBusinessHours
+            --condition-arg 'The Condition Argument'
+            --action RT::Action:ActionModule
+            --template 'Template Name or ID'
+
+INSTALLATION
+    The Perl module Date::Manip is required. You can install it on your RT
+    system via CPAN:
+
+        cpan Date::Manip
+
+    To install this condition, run the following commands:
+
+        perl Makefile.PL
+        make
+        make test
+        make install
+
+    or place this script under
+
+        RT_HOME/local/lib/RT/Condition/
+
+    where "RT_HOME" is the path to your RT installation.
+
+CONFIGURATION
+  RT SITE CONFIGURATION
+    To enabled this condition edit the RT site configuration based in
+    "RT_HOME/etc/RT_SiteConfig":
+
+        Set(@Plugins,qw(RT::Condition::NotStartedInBusinessHours));
+
+    To change the standard behavior of Date::Manip you may add to the site
+    configuration:
+
+        Set(%DateManipConfig, (
+            'WorkDayBeg', '9:00',
+            'WorkDayEnd', '17:00', 
+            #'WorkDay24Hr', '0',
+            #'WorkWeekBeg', '1',
+            #'WorkWeekEnd', '7'
+        ));
+
+    For more information see
+    <http://search.cpan.org/~sbeck/Date-Manip-6.25/lib/Date/Manip/Config.pod
+    #BUSINESS_CONFIGURATION_VARIABLES>.
+
+  CONDITION ARGUMENT
+    This condition needs exactly 1 argument to work.
+
+        --condition RT::Condition::NotStartedInBusinessHours 
+        --condition-arg 1
+
+    1 is the time in hours for escalation.
+
+  EXAMPLE CRON JOB
+        rt-crontool 
+            --search RT::Search::FromSQL 
+            --search-arg "Queue = 'General' AND ( Status = 'new' ) AND Owner = 'Nobody'" 
+            --condition RT::Condition::NotStartedInBusinessHours 
+            --condition-arg 1 
+            --action RT::Action::RecordComment 
+            --template 'Unowned tickets'
+
+AUTHOR
+    Benjamin Heisig, <bheisig@synetics.de>
+
+SUPPORT AND DOCUMENTATION
+    You can find documentation for this module with the perldoc command.
+
+        perldoc RT::Condition::NotStartedInBusinessHours
+
+BUGS
+    Please report any bugs or feature requests to the author.
+
+ACKNOWLEDGEMENTS
+    This script is a fork from RT::Condition::UntouchedInBusinessHours
+    written by Torsten Brumm.
+
+    Special thanks to the synetics GmbH, "<http://i-doit.org/>" for
+    initiating and supporting this project!
+
+COPYRIGHT AND LICENSE
+    Copyright 2011 Benjamin Heisig, <bheisig@synetics.de>
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    Request Tracker (RT) is Copyright Best Practical Solutions, LLC.
+
+SEE ALSO
+        Date::Manip
+
