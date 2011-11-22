@@ -6,6 +6,7 @@ inc/Module/Install/AutoInstall.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
+inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/ReadmeFromPod.pm
@@ -23,4 +24,3 @@ t/00-load.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
-

@@ -13,6 +13,7 @@ use vars qw/@ISA/;
 
 our $VERSION = '0.1';
 
+
 =head1 NAME
 
 L<RT::Condition::NotStartedInBusinessHours> - Check for unstarted tickets within
@@ -147,6 +148,7 @@ Request Tracker (RT) is Copyright Best Practical Solutions, LLC.
 
 =cut
 
+
 sub IsApplicable {
     ## Fetch ticket information:
     my $self = shift;
@@ -190,4 +192,3 @@ eval "require RT::Condition::NotStartedInBusinessHours_Local";
 die $@ if ($@ && $@ !~ qr{^Can't locate RT/Condition/NotStartedInBusinessHours_Local.pm});
 
 1;
-

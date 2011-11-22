@@ -8,7 +8,7 @@ readme_from;
 repository 'git://git.benjaminheisig.net/rt-condition-notstartedinbusinesshours.git';
 
 requires 'Date::Manip' => '6.25';
+auto_install();
 
 sign;
 &WriteAll;
-
