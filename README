@@ -17,12 +17,12 @@ SYNOPSIS
             --template 'Template Name or ID'
 
 INSTALLATION
-    The Perl module Date::Manip is required. You can install it on your RT
-    system via CPAN:
+    This condition based on the following modules:
 
-        cpan Date::Manip
+        RT >= 4.0.0
+        Date::Manip >= 6.25
 
-    To install this condition, run the following commands:
+    To install this condition run the following commands:
 
         perl Makefile.PL
         make
@@ -34,6 +34,11 @@ INSTALLATION
         RT_HOME/local/lib/RT/Condition/
 
     where "RT_HOME" is the path to your RT installation.
+
+    You may additionally make this condition available in RT's web UI as a
+    Scrip Condition:
+
+        make initdb
 
 CONFIGURATION
   RT SITE CONFIGURATION
@@ -78,12 +83,37 @@ AUTHOR
     Benjamin Heisig, <bheisig@synetics.de>
 
 SUPPORT AND DOCUMENTATION
-    You can find documentation for this module with the perldoc command.
+    You can find documentation for this module with the "perldoc" command.
 
         perldoc RT::Condition::NotStartedInBusinessHours
 
+    You can also look for information at:
+
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/RT-Condition-NotStartedInBusinessHours/
+        >
+
+    *   RT: CPAN's request tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=RT-Condition-NotStartedInB
+        usinessHours>
+
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/RT-Condition-NotStartedInBusinessHours>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/RT-Condition-NotStartedInBusinessHour
+        s>
+
 BUGS
     Please report any bugs or feature requests to the author.
+
+    The language setting of the current user (obviously "root") has to be
+    set to "en" (English) or left empty (system default is English).
+    Otherwise parsing ticket's "Starts" date by "Date::Manip" won't work.
 
 ACKNOWLEDGEMENTS
     This script is a fork from RT::Condition::UntouchedInBusinessHours
@@ -93,7 +123,7 @@ ACKNOWLEDGEMENTS
     initiating and supporting this project!
 
 COPYRIGHT AND LICENSE
-    Copyright 2011 Benjamin Heisig, <bheisig@synetics.de>
+    Copyright 2012 synetics GmbH, <http://i-doit.org/>
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
@@ -101,5 +131,6 @@ COPYRIGHT AND LICENSE
     Request Tracker (RT) is Copyright Best Practical Solutions, LLC.
 
 SEE ALSO
+        RT
         Date::Manip
 

@@ -151,7 +151,7 @@ Please report any bugs or feature requests to the L<author|/"AUTHOR">.
 
 The language setting of the current user (obviously C<root>) has to be set to
 C<en> (English) or left empty (system default is English). Otherwise parsing
-ticket's C<Starts> date by C<Date::Manip> won't work
+ticket's C<Starts> date by C<Date::Manip> won't work.
 
 
 =head1 ACKNOWLEDGEMENTS
@@ -183,6 +183,8 @@ Request Tracker (RT) is Copyright Best Practical Solutions, LLC.
 
 
 sub IsApplicable {
+    my $self = shift;
+
     ## Enforce English language. Otherwise parsing ticket's 'Starts' date by
     ## Date::Manip won't work:
     my $language = substr($self->CurrentUser->Lang, 0, 2);
@@ -198,7 +200,6 @@ sub IsApplicable {
     }
 
     ## Fetch ticket information:
-    my $self = shift;
     my $ticketObj = $self->TicketObj;
     my $tickid = $ticketObj->Id;
     my $starts = $ticketObj->StartsObj->AsString;
