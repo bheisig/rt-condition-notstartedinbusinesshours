@@ -1,4 +1,7 @@
 Revision history for RT-Condition-NotStartedInBusinessHours
 
+0.2     Mon, 19 Mar 2012 12:47:20 +0100
+        Enforce English language.
+
 0.1     Tue, 22 Nov 2011 14:53:50 +0100
         Initial release.

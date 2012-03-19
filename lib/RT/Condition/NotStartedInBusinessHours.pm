@@ -11,7 +11,7 @@ use Date::Manip;
 use vars qw/@ISA/;
 @ISA = qw(RT::Condition);
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 
 =head1 NAME
@@ -42,12 +42,12 @@ hours.
 
 =head1 INSTALLATION
 
-The Perl module L<Date::Manip> is required. You can install it on your RT system
-via CPAN:
+This condition based on the following modules:
 
-    cpan Date::Manip
+    RT >= 4.0.0
+    Date::Manip >= 6.25
 
-To install this condition, run the following commands:
+To install this condition run the following commands:
 
     perl Makefile.PL
     make
@@ -60,6 +60,11 @@ or place this script under
 
 where C<RT_HOME> is the path to your RT installation.
 
+You may additionally make this condition available in RT's web UI as a Scrip
+Condition:
+
+    make initdb
+
 
 =head1 CONFIGURATION
 
@@ -71,7 +76,8 @@ C<RT_HOME/etc/RT_SiteConfig>:
 
     Set(@Plugins,qw(RT::Condition::NotStartedInBusinessHours));
 
-To change the standard behavior of Date::Manip you may add to the site configuration:
+To change the standard behavior of Date::Manip you may add to the site
+configuration:
 
     Set(%DateManipConfig, (
         'WorkDayBeg', '9:00',
@@ -112,14 +118,40 @@ Benjamin Heisig, E<lt>bheisig@synetics.deE<gt>
 
 =head1 SUPPORT AND DOCUMENTATION
 
-You can find documentation for this module with the perldoc command.
+You can find documentation for this module with the C<perldoc> command.
 
     perldoc RT::Condition::NotStartedInBusinessHours
+
+You can also look for information at:
+
+=over 4
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/RT-Condition-NotStartedInBusinessHours/>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=RT-Condition-NotStartedInBusinessHours>
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/RT-Condition-NotStartedInBusinessHours>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/RT-Condition-NotStartedInBusinessHours>
+
+=back
 
 
 =head1 BUGS
 
 Please report any bugs or feature requests to the L<author|/"AUTHOR">.
+
+The language setting of the current user (obviously C<root>) has to be set to
+C<en> (English) or left empty (system default is English). Otherwise parsing
+ticket's C<Starts> date by C<Date::Manip> won't work
 
 
 =head1 ACKNOWLEDGEMENTS
@@ -133,7 +165,7 @@ and supporting this project!
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2011 Benjamin Heisig, E<lt>bheisig@synetics.deE<gt>
+Copyright 2012 synetics GmbH, E<lt>http://i-doit.org/E<gt>
 
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
@@ -143,6 +175,7 @@ Request Tracker (RT) is Copyright Best Practical Solutions, LLC.
 
 =head1 SEE ALSO
 
+    RT
     Date::Manip
 
 
@@ -150,6 +183,20 @@ Request Tracker (RT) is Copyright Best Practical Solutions, LLC.
 
 
 sub IsApplicable {
+    ## Enforce English language. Otherwise parsing ticket's 'Starts' date by
+    ## Date::Manip won't work:
+    my $language = substr($self->CurrentUser->Lang, 0, 2);
+    if ($language ne '' && $language ne 'en') {
+        $RT::Logger->error(
+            "This RT condition failed because current user '" .
+            $self->CurrentUser->Name .
+            "' has the unsupported language setting '" .
+            $self->CurrentUser->Lang .
+            "'. It should be set to 'en' (English) or left empty (system default is English)."
+        );
+        return undef;
+    }
+
     ## Fetch ticket information:
     my $self = shift;
     my $ticketObj = $self->TicketObj;
