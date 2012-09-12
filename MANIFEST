@@ -17,6 +17,7 @@ inc/Module/Install/WriteAll.pm
 lib/RT/Condition/NotStartedInBusinessHours.pm
 Makefile.PL
 MANIFEST
+MANIFEST.SKIP
 META.yml
 README
 SIGNATURE

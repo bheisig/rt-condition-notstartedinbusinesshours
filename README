@@ -3,7 +3,7 @@ NAME
     within business hours
 
 DESCRIPTION
-    This RT Condition will check for tickets which are not started within
+    This RT condition will check for tickets which are not started within
     business hours.
 
 SYNOPSIS
@@ -20,7 +20,7 @@ INSTALLATION
     This condition based on the following modules:
 
         RT >= 4.0.0
-        Date::Manip >= 6.25
+        Date::Manip >= 6.34
 
     To install this condition run the following commands:
 
@@ -31,19 +31,28 @@ INSTALLATION
 
     or place this script under
 
-        RT_HOME/local/lib/RT/Condition/
+        $RT_HOME/local/lib/RT/Condition/
 
-    where "RT_HOME" is the path to your RT installation.
+    where $RT_HOME is the path to your RT installation, for example
+    "/opt/rt4".
 
     You may additionally make this condition available in RT's web UI as a
     Scrip Condition:
 
         make initdb
 
+    Another way to install the latest release is via CPAN:
+
+        cpan RT::Condition::NotStartedInBusinessHours
+        $RT_HOME/sbin/rt-setup-database --action insert --datafile /opt/rt4/local/plugins/RT-Condition-NotStartedInBusinessHours/etc/initialdata
+
+    The second command is equivalent to "make initdb", but is unfortunately
+    not executed automatically.
+
 CONFIGURATION
   RT SITE CONFIGURATION
-    To enabled this condition edit the RT site configuration based in
-    "RT_HOME/etc/RT_SiteConfig":
+    To enabled this condition edit the RT site configuration located under
+    "$RT_HOME/etc/RT_SiteConfig.pm":
 
         Set(@Plugins,qw(RT::Condition::NotStartedInBusinessHours));
 
@@ -54,12 +63,12 @@ CONFIGURATION
             'WorkDayBeg', '9:00',
             'WorkDayEnd', '17:00', 
             #'WorkDay24Hr', '0',
-            #'WorkWeekBeg', '1',
-            #'WorkWeekEnd', '7'
+            'WorkWeekBeg', '1',
+            'WorkWeekEnd', '5'
         ));
 
     For more information see
-    <http://search.cpan.org/~sbeck/Date-Manip-6.25/lib/Date/Manip/Config.pod
+    <http://search.cpan.org/~sbeck/Date-Manip-6.34/lib/Date/Manip/Config.pod
     #BUSINESS_CONFIGURATION_VARIABLES>.
 
   CONDITION ARGUMENT
@@ -89,38 +98,30 @@ SUPPORT AND DOCUMENTATION
 
     You can also look for information at:
 
-    *   Search CPAN
-
+    Search CPAN
         <http://search.cpan.org/dist/RT-Condition-NotStartedInBusinessHours/
         >
 
-    *   RT: CPAN's request tracker
-
+    RT: CPAN's request tracker
         <http://rt.cpan.org/NoAuth/Bugs.html?Dist=RT-Condition-NotStartedInB
         usinessHours>
 
-    *   AnnoCPAN: Annotated CPAN documentation
-
+    AnnoCPAN: Annotated CPAN documentation
         <http://annocpan.org/dist/RT-Condition-NotStartedInBusinessHours>
 
-    *   CPAN Ratings
-
+    CPAN Ratings
         <http://cpanratings.perl.org/d/RT-Condition-NotStartedInBusinessHour
         s>
+
+    Repository
+        <https://github.com/bheisig/rt-condition-notstartedinbusinesshours>
 
 BUGS
     Please report any bugs or feature requests to the author.
 
-    The language setting of the current user (obviously "root") has to be
-    set to "en" (English) or left empty (system default is English).
-    Otherwise parsing ticket's "Starts" date by "Date::Manip" won't work.
-
 ACKNOWLEDGEMENTS
     This script is a fork from RT::Condition::UntouchedInBusinessHours
     written by Torsten Brumm.
-
-    Special thanks to the synetics GmbH, "<http://i-doit.org/>" for
-    initiating and supporting this project!
 
 COPYRIGHT AND LICENSE
     Copyright 2012 synetics GmbH, <http://i-doit.org/>
