@@ -5,9 +5,9 @@ RTx 'RT-Condition-NotStartedInBusinessHours';
 all_from 'lib/RT/Condition/NotStartedInBusinessHours.pm';
 license 'perl';
 readme_from;
-repository 'git://git.benjaminheisig.net/rt-condition-notstartedinbusinesshours.git';
+repository 'https://github.com/bheisig/rt-condition-notstartedinbusinesshours.git';
 
-requires 'Date::Manip' => '6.25';
+requires 'Date::Manip' => '6.34';
 auto_install();
 
 sign;
