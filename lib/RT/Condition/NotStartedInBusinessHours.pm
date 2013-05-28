@@ -95,7 +95,7 @@ C<$RT_HOME/etc/RT_SiteConfig.pm>:
 To change the standard behavior of Date::Manip you may add to the site
 configuration:
 
-    Set(%DateManipConfig, (
+    Set(%NSIBHDateManipConfig, (
         'WorkDayBeg', '9:00',
         'WorkDayEnd', '17:00', 
         #'WorkDay24Hr', '0',
@@ -212,7 +212,7 @@ sub IsApplicable {
     my $date = new Date::Manip::Date;
 
     ## Set Date::Manip's configuration from RT's site configuration:
-    my %dateConfig = RT->Config->Get('DateManipConfig');
+    my %dateConfig = RT->Config->Get('NSIBHDateManipConfig');
     # @todo check wether setting exists
     $date->config(%dateConfig);
 
